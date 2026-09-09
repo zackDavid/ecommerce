@@ -38,6 +38,15 @@ const ProductScreen = () => {
                   </Col>
                 </Row>
               </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  className='btn-block'
+                  type='button'
+                  disabled={product.countInStock === 0}
+                >
+                  Agregar al Carrito
+                </Button>
+              </ListGroup.Item>
             </ListGroup>
           </Card>
         </Col>
