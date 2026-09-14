@@ -1,14 +1,25 @@
 import express from "express";
 const router = express.Router();
 import products from '../data/products.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import Product from '../models/productModel.js';
 
-router.get('/', async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
+    const products = await Product.find({}); //obtener todos los productos de la base de datos
     res.json(products);
-});
+}));
 
-router.get('/:id', async (req, res) => {
-    const product = products.find((p) => p._id === req.params.id);
+router.get('/:id', asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+
+    //mensaje de error en caso de que el producto no exista
+    if(product) {
+        return res.json(product); 
+    }
+
+    res.status(404).json({message: 'Product not found'})
+
     res.json(product);
-});
+}));
 
 export default router;
